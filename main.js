@@ -8,6 +8,13 @@ showButton.setAttribute('id', 'addButton');
 newPost.append(showButton);
 showButton.innerHTML = "<strong>New Post</strong>";
 
+if (localStorage.getItem('posts') == null) {
+    console.log('local storage is empty');
+    fetchData();
+}
+
+renderLocalStorage();
+
 function fetchData() {
     console.log('fetch');
     let localArray = [];
@@ -26,7 +33,6 @@ function setLocalStorage(posts) {
         console.log(post);
     };
 }
-fetchData();
 
 let maxId = 0;
 
@@ -140,6 +146,86 @@ function addToLocalStorage(post) {
     
     localArray.push(post);
     localStorage.setItem('posts', JSON.stringify(localArray));
-    console.log(localStorage);
-    //renderLocalStorage();
+
+    renderLocalStorage();
 }
+
+function renderLocalStorage() {
+    localArray = JSON.parse(localStorage.getItem('posts'));
+      for (let i = 0; i < localArray.length; i++) {
+          let post = localArray[i];
+          
+          let article = document.createElement('article');
+          article.classList.add('article');
+  
+          let title = document.createElement('h3');
+          title.innerText = post.title;
+          title.classList.add("title");
+  
+          let tag1 = document.createElement('a');
+          tag1.innerText = post.tags[0];
+          let tag2 = document.createElement('a');
+          tag2.innerText = post.tags[1];
+          let tag3 = document.createElement('a');
+          tag3.innerText = post.tags[2];
+  
+          let user = document.createElement('span');
+          user.innerText = "User : " + post.userId;
+          user.classList.add('user');
+  
+          let body = document.createElement('p');
+          body.innerText = post.body;
+          body.classList.add('body');
+  
+          let reaction = document.createElement("span");
+          reaction.classList.add("reaction");
+  
+          let reactButton = document.createElement("button");
+          reaction.append(reactButton);
+          reactButton.classList.add("reactButton");
+  
+          let icon = document.createElement("i");
+          reactButton.appendChild(icon);
+          icon.classList.add("fa-regular");
+          icon.classList.add("fa-thumbs-up");
+  
+          let count = document.createElement("span");
+          count.innerText = post.reactions;
+          reaction.append(count);
+          count.num = post.reactions;
+          count.classList.add("count");
+          
+          let number = document.createElement("span");
+          number.innerText = "Post: " + post.id;
+          number.classList.add("number");
+  
+          article.postsId = post.id;
+          article.id = 'article-' + post.id;
+  
+          reactButton.addEventListener('click', function () {
+  
+              if (post.voted) return;
+              count.innerHTML = ++count.num;
+              post.voted = true;
+              let localArray = JSON.parse(localStorage.getItem('posts'));
+  
+              localArray.forEach(p => {
+                  if (p.id == post.id) {
+                      p.reactions = count.num;
+                      p.voted = post.voted;
+                  }
+              })
+              localStorage.setItem('posts', JSON.stringify(localArray));
+          })
+  
+          article.append(title);
+          for (let i = 0; i < post.tags.length; i++) {
+              let tag1 = document.createElement('a');
+              tag1.innerText = post.tags[i]
+              article.append(tag1);
+          }
+  
+          article.append(user, body, reaction, number);
+          postSection.append(article);
+      }
+  }
