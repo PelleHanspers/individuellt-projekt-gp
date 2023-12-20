@@ -5,7 +5,7 @@ let newPost = document.getElementById('new-post');
 let array = [];
 let newPostObj = {};
 let showButton = document.createElement('button');
-showButton.setAttribute('id', 'addButton');
+showButton.setAttribute('id', 'showButton');
 newPost.append(showButton);
 showButton.innerHTML = "<strong>New Post</strong>";
 // kör fetch-funktionen bara local storage är tomt
@@ -69,7 +69,7 @@ myForm.setAttribute('id', 'myForm');
 // evenlisteners för nya inlägg
 showButton.addEventListener("click", showNewPost);
 
-postButton.addEventListener('click', function() {
+postButton.addEventListener('click', function () {
     // kollar att title ochh body inte är tomma
     if (!addTitle.value || !addBody.value) {
         alert("Post must contain a Title and a body!");
@@ -77,21 +77,6 @@ postButton.addEventListener('click', function() {
         addNewPost();
     }
 });
-
-// tar bort och tömmer element för nya inlägg
-cancelButton.addEventListener('click', function() {
-    addDiv.remove();
-    legend.remove();
-    addTitle.value = "";
-    addTitle.remove();
-    addBody.value = "";
-    addBody.remove();
-    addTag.value = "";
-    addTag.remove();
-    postButton.remove();
-
-    showButton.hidden = false;
-} );
 
 // visar fält för nytt inlägg
 function showNewPost() {
@@ -106,6 +91,21 @@ function showNewPost() {
 
     showButton.hidden = true;
 }
+
+// tar bort och tömmer element för nya inlägg
+cancelButton.addEventListener('click', function () {
+    addDiv.remove();
+    legend.remove();
+    addTitle.value = "";
+    addTitle.remove();
+    addBody.value = "";
+    addBody.remove();
+    addTag.value = "";
+    addTag.remove();
+    postButton.remove();
+
+    showButton.hidden = false;
+});
 
 let inputArray = [];
 // skapar nytt inlägg som sparas i local storage
@@ -135,7 +135,7 @@ function addNewPost() {
         reactions: 0,
         voted: false,
     }
-    // reset element 
+    // reset elements
     localArray = [];
     tagArray = [];
     addDiv.remove();
@@ -155,7 +155,7 @@ function addNewPost() {
 // lägger till inlägg, både initiellt från fetch och nya inlägg från användare
 function addToLocalStorage(post) {
     let localArray = JSON.parse(localStorage.getItem('posts'));
-    
+
     localArray.push(post);
     localStorage.setItem('posts', JSON.stringify(localArray));
 
@@ -163,10 +163,10 @@ function addToLocalStorage(post) {
 }
 // skriver ut inlägg på sidan
 function renderLocalStorage() {
-localArray = JSON.parse(localStorage.getItem('posts'));
+    localArray = JSON.parse(localStorage.getItem('posts'));
     for (let i = 0; i < localArray.length; i++) {
         let post = localArray[i];
-        
+
         let article = document.createElement('article');
         article.classList.add('article');
 
@@ -206,7 +206,7 @@ localArray = JSON.parse(localStorage.getItem('posts'));
         reaction.append(count);
         count.num = post.reactions;
         count.classList.add("count");
-        
+
         let number = document.createElement("span");
         number.innerText = "Post: " + post.id;
         number.classList.add("number");
@@ -230,6 +230,7 @@ localArray = JSON.parse(localStorage.getItem('posts'));
             })
             localStorage.setItem('posts', JSON.stringify(localArray));
         })
+
         // append element i korrekt ordning för varje inlägg och lägger till alla inlägg i huvudsektionen
         article.append(title);
         for (let i = 0; i < post.tags.length; i++) {
