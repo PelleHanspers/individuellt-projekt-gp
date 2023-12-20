@@ -27,3 +27,30 @@ function setLocalStorage(posts) {
     };
 }
 fetchData();
+
+let postButton = document.createElement("button");
+postButton.setAttribute('id', 'postButton');
+postButton.innerHTML = "<strong>Post</strong>";
+
+let cancelButton = document.createElement('button');
+cancelButton.setAttribute('id', 'cancelButton');
+cancelButton.innerHTML = '<strong>Cancel</strong>';
+
+let addDiv = document.createElement("fieldset");
+addDiv.setAttribute('id', 'fieldset');
+let legend = document.createElement('legend');
+legend.innerText = "Create Post";
+let addTitle = document.createElement("input");
+addTitle.setAttribute("id", "addTitle");
+addTitle.placeholder = "The title of your post";
+let addBody = document.createElement("textarea");
+addBody.setAttribute("id", "addBody");
+addBody.placeholder = "What would you like to tell the world?"
+let addTag = document.createElement("input");
+addTag.setAttribute("id", "addTag");
+addTag.placeholder = "Add up to three tags for your post";
+addTag.title = "Add up to three tags for your post";
+let buttonSpan = document.createElement('span');
+buttonSpan.setAttribute('id', 'buttonSpan');
+let myForm = document.createElement('form');
+myForm.setAttribute('id', 'myForm');
