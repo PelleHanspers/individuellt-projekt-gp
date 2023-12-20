@@ -22,7 +22,7 @@ function setLocalStorage(posts) {
     for (let i = 0; i < posts.length; i++) {
         let post = posts[i];
         post.voted = false;
-        //addToLocalStorage(post);
+        addToLocalStorage(post);
         console.log(post);
     };
 }
@@ -59,7 +59,7 @@ myForm.setAttribute('id', 'myForm');
 
 showButton.addEventListener("click", showNewPost);
 
-//postButton.addEventListener("click", addNewPost);
+postButton.addEventListener("click", addNewPost);
 
 cancelButton.addEventListener('click', function() {
     addDiv.remove();
@@ -86,4 +86,60 @@ function showNewPost() {
     buttonSpan.append(cancelButton);
 
     showButton.hidden = true;
+}
+
+function addNewPost() {
+    let x = document.getElementById("addTitle").value;
+    let y = document.getElementById("addBody").value;
+    let z = document.getElementById("addTag").value;
+
+    let tagArray = z.split(/[ ,]+/).slice(0, 3);
+
+    let temp = document.querySelectorAll('.article');
+
+    temp.forEach(p => {
+        if (p.postsId > maxId) {
+            maxId = p.postsId;
+        }
+    })
+
+    maxId++;
+
+    newPostObj = {
+        id: maxId,
+        title: x,
+        body: y,
+        userId: "GuestUser",
+        tags: tagArray,
+        reactions: 0,
+        voted: false,
+    }
+
+//    console.log(newPostObj.tags);   
+    localArray = [];
+    tagArray = [];
+    addDiv.remove();
+    legend.remove();
+    addTitle.value = "";
+    addTitle.remove();
+    addBody.value = "";
+    addBody.remove();
+    addTag.value = "";
+    addTag.remove();
+    postButton.remove();
+
+    showButton.hidden = false;
+
+    addToLocalStorage(newPostObj);
+};
+
+function addToLocalStorage(post) {
+    //console.log(post);
+    let localArray = JSON.parse(localStorage.getItem('posts'));
+//    console.log(localArray);
+    
+    localArray.push(post);
+    localStorage.setItem('posts', JSON.stringify(localArray));
+    console.log(localStorage);
+    //renderLocalStorage();
 }
