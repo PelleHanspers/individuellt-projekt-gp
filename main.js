@@ -65,10 +65,19 @@ let buttonSpan = document.createElement('span');
 buttonSpan.setAttribute('id', 'buttonSpan');
 let myForm = document.createElement('form');
 myForm.setAttribute('id', 'myForm');
+
 // evenlisteners för nya inlägg
 showButton.addEventListener("click", showNewPost);
 
-postButton.addEventListener("click", addNewPost);
+postButton.addEventListener('click', function() {
+    // kollar att title ochh body inte är tomma
+    if (!addTitle.value || !addBody.value) {
+        alert("Post must contain a Title and a body!");
+    } else {
+        addNewPost();
+    }
+});
+
 // tar bort och tömmer element för nya inlägg
 cancelButton.addEventListener('click', function() {
     addDiv.remove();
@@ -82,7 +91,7 @@ cancelButton.addEventListener('click', function() {
     postButton.remove();
 
     showButton.hidden = false;
-} )
+} );
 
 // visar fält för nytt inlägg
 function showNewPost() {
@@ -142,7 +151,7 @@ function addNewPost() {
     showButton.hidden = false;
 
     addToLocalStorage(newPostObj);
-};
+}
 // lägger till inlägg, både initiellt från fetch och nya inlägg från användare
 function addToLocalStorage(post) {
     let localArray = JSON.parse(localStorage.getItem('posts'));
