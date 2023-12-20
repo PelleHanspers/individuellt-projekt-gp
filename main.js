@@ -28,6 +28,8 @@ function setLocalStorage(posts) {
 }
 fetchData();
 
+let maxId = 0;
+
 let postButton = document.createElement("button");
 postButton.setAttribute('id', 'postButton');
 postButton.innerHTML = "<strong>Post</strong>";
@@ -54,3 +56,34 @@ let buttonSpan = document.createElement('span');
 buttonSpan.setAttribute('id', 'buttonSpan');
 let myForm = document.createElement('form');
 myForm.setAttribute('id', 'myForm');
+
+showButton.addEventListener("click", showNewPost);
+
+//postButton.addEventListener("click", addNewPost);
+
+cancelButton.addEventListener('click', function() {
+    addDiv.remove();
+    legend.remove();
+    addTitle.value = "";
+    addTitle.remove();
+    addBody.value = "";
+    addBody.remove();
+    addTag.value = "";
+    addTag.remove();
+    postButton.remove();
+
+    showButton.hidden = false;
+} )
+
+function showNewPost() {
+    newPost.append(addDiv);
+    addDiv.append(legend);
+    addDiv.append(addTitle);
+    addDiv.append(addBody);
+    addDiv.append(addTag);
+    addDiv.append(buttonSpan);
+    buttonSpan.append(postButton);
+    buttonSpan.append(cancelButton);
+
+    showButton.hidden = true;
+}
