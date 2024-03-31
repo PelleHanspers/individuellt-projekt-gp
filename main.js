@@ -216,7 +216,11 @@ function renderLocalStorage() {
         // hantera like's
         reactButton.addEventListener('click', function () {
             // hanterar att man inte kan like'a samma inlägg flera ggr
-            if (post.voted) return;
+            if (post.voted) {
+                alert("You have already liked this post:)")
+                return;
+            }
+            
             count.innerHTML = ++count.num;
             post.voted = true;
             // hämtar data i local storage och sparar om med uppdaterade värden
@@ -233,6 +237,7 @@ function renderLocalStorage() {
 
         // append element i korrekt ordning för varje inlägg och lägger till alla inlägg i huvudsektionen
         article.append(title);
+
         for (let i = 0; i < post.tags.length; i++) {
             let tag1 = document.createElement('a');
             tag1.innerText = post.tags[i]
